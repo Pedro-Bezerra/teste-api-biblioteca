@@ -34,4 +34,11 @@ public class LibroService {
 	public Libro saveLibro(Libro libro) {
 		return repo.insert(libro);
 	}
+	
+	
+	
+	public void removeLibro(String id) {
+		getLibroPeloId(id);
+		repo.deleteById(id);
+	}
 }

@@ -40,4 +40,12 @@ public class LibroResource {
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(libro.getId()).toUri();
 		return ResponseEntity.created(uri).build();
 	}
+	
+	@RequestMapping(value="/{id}", method=RequestMethod.DELETE)
+	public ResponseEntity<Void> removeLibro(String id) {
+		service.removeLibro(id);
+		return ResponseEntity.noContent().build();
+	}
+	
+	
 }
