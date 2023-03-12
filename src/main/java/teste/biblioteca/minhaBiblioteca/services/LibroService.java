@@ -35,7 +35,14 @@ public class LibroService {
 		return repo.insert(libro);
 	}
 	
-	
+	public Libro updateLibro(Libro l) {
+		Libro newLibro = getLibroPeloId(l.getId());
+		newLibro.setTitulo(l.getTitulo());
+		newLibro.setAutor(l.getAutor());
+		newLibro.setGenero(l.getGenero());
+		newLibro.setEditora(l.getEditora());
+		return repo.save(newLibro);
+	}
 	
 	public void removeLibro(String id) {
 		getLibroPeloId(id);
