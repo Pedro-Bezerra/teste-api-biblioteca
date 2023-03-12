@@ -2,9 +2,15 @@ package teste.biblioteca.minhaBiblioteca.domain;
 
 import java.util.Objects;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+@Document
 public class Libro {
 	
+	@Id
 	private String id;
+	
 	private String titulo;
 	private String autor;
 	private String genero;
