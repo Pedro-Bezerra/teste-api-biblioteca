@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="https://www.thymeleaf.com">
+<head>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<script src="/actions.js"></script>
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+	integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+	crossorigin="anonymous">
+	<title>Livros Disponíveis</title>
+	<script src="https://kit.fontawesome.com/830fec2588.js" crossorigin="anonymous"></script>
+	 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <style>
+.table {
+  font-family: "Fira Sans", sans-serif;
+  border-collapse: collapse;
+}
+
+.table th {
+  text-align: left;
+  border-top: 1px solid #009578;
+  border-bottom: 1px solid #009578;
+}
+
+.table td,
+.search-input {
+  font-size: 0.85em;
+  padding: 0.6em 1em;
+}
+
+.search-input {
+  border: none;
+  outline: none;
+  font-family: "Fira Sans", sans-serif;
+}
+</style>
+</head>
+<body>
+	<nav class="navbar navbar-expand-lg navbar-light bg-dark">
+		<a class="navbar-brand text-light" href="#">LibroLink</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse"
+			data-target="#conteudoNavbarSuportado"
+			aria-controls="conteudoNavbarSuportado" aria-expanded="false"
+			aria-label="Alterna navegação">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+		<div class="collapse navbar-collapse" id="conteudoNavbarSuportado">
+			<ul class="navbar-nav mr-auto">
+				<li class="nav-item active"><a
+					class="nav-link active text-white" href="/">Início <span
+						class="sr-only">(página atual)</span></a></li>
+				<li class="nav-item"><a class="nav-link active text-white"
+					href="libros_disponiveis">Catálogo de livros</a></li>
+
+			</ul>
+	</nav>
+
+
+    <table class="table">
+  <thead>
+    <tr>
+      <th>
+        <input type="text" class="search-input" placeholder="Pesquisa pelo Id">
+      </th>
+      <th>
+        <input type="text" class="search-input" placeholder="Pesquisa pelo Título">
+      </th>
+      <th>
+        <input type="text" class="search-input" placeholder="Pesquisa pelo Autor">
+      </th>
+      <th>
+        <input type="text" class="search-input" placeholder="Pesquisa pelo Gênero">
+      </th>
+      <th>
+        <input type="text" class="search-input" placeholder="Pesquisa pela Editora">
+      </th>
+       <th>
+        <input type="text" class="search-input" placeholder="Alocado">
+      </th>
+       <th>
+        <input type="text" class="search-input" placeholder="Ação">
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr th:each="libro :${libro}">
+	   <td th:text="${libro.id}"></td>
+      <td th:text="${libro.titulo}"></td>
+      <td th:text="${libro.autor}"></td>
+      <td th:text="${libro.genero}"></td>
+      <td th:text="${libro.editora}"></td>
+      <td th:text="${libro.alocado}"></td>
+      <td>
+      <a style="color:red" th:href="@{/excluirLibro/{id} (id=${libro.id})}"><i class="fa-solid fa-trash ms-4"></i></a>
+      <a style="color:blue" th:href="@{/editarLibro/{id} (id=${libro.id})}"><i class="fa-solid fa-pen-to-square ms-4"></i></a>
+      </td>
+  </tbody>
+</table>
+
+
+  <script type="application/javascript">
+document.addEventListener("DOMContentLoaded", () => {
+  document.querySelectorAll(".search-input").forEach((inputField) => {
+    const tableRows = inputField
+      .closest("table")
+      .querySelectorAll("tbody > tr");
+    const headerCell = inputField.closest("th");
+    const otherHeaderCells = headerCell.closest("tr").children;
+    const columnIndex = Array.from(otherHeaderCells).indexOf(headerCell);
+    const searchableCells = Array.from(tableRows).map(
+      (row) => row.querySelectorAll("td")[columnIndex]
+    );
+
+    inputField.addEventListener("input", () => {
+      const searchQuery = inputField.value.toLowerCase();
+
+      for (const tableCell of searchableCells) {
+        const row = tableCell.closest("tr");
+        const value = tableCell.textContent.toLowerCase().replace(",", "");
+
+        row.style.visibility = null;
+
+        if (value.search(searchQuery) === -1) {
+          row.style.visibility = "collapse";
+        }
+      }
+    });
+  });
+});
+
+    </script>
+
+<a class="nav-link active text-white" href="registro_libro"><button type="submit" class="btn btn-primary">Adicionar novo livro</button></a>
+</div>
+
+ 
+
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+		integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+		integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+		integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+		crossorigin="anonymous"></script>
+</body>
+</html>
